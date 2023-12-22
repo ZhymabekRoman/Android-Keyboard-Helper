@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Keyboard Helper</string>
+    <string name="portrait_keyboard_prompt">Your prompt text here</string>
+    <string name="landscape_keyboard_prompt">Your prompt text here</string>
+</resources>
