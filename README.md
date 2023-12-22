@@ -1,5 +1,5 @@
 ## Android Keyboard Helper
-Changes default input method by screen orientation.
+Changes default input method based on screen orientation.
 
 ![Screenshot](assets/Screenshot_1.jpg)
 
