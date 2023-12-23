@@ -19,6 +19,8 @@ import android.widget.Spinner;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -26,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    SharedPreferences sharedPref = getSharedPreferences("appSettings", Context.MODE_PRIVATE);
 
     PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
     String packageName = getPackageName();
@@ -62,6 +65,20 @@ public class MainActivity extends AppCompatActivity {
 
     portraitSpinner.setAdapter(adapter);
     landscapeSpinner.setAdapter(adapter);
+
+        String portraitKeyboard = sharedPref.getString("portraitKeyboard", "");
+if (!portraitKeyboard.isEmpty() && keyboardMap.containsValue(portraitKeyboard)) {
+    String portraitKeyboardLabel = getKeyByValue(keyboardMap, portraitKeyboard);
+    int portraitSpinnerPosition = adapter.getPosition(portraitKeyboardLabel);
+    portraitSpinner.setSelection(portraitSpinnerPosition);
+}
+
+String landscapeKeyboard = sharedPref.getString("landscapeKeyboard", "");
+if (!landscapeKeyboard.isEmpty() && keyboardMap.containsValue(landscapeKeyboard)) {
+    String landscapeKeyboardLabel = getKeyByValue(keyboardMap, landscapeKeyboard);
+    int landscapeSpinnerPosition = adapter.getPosition(landscapeKeyboardLabel);
+    landscapeSpinner.setSelection(landscapeSpinnerPosition);
+}
 
     portraitSpinner.setOnItemSelectedListener(
         new AdapterView.OnItemSelectedListener() {
@@ -128,4 +145,12 @@ public class MainActivity extends AppCompatActivity {
           }
         });
   }
+  private String getKeyByValue(HashMap<String, String> map, String value) {
+    for (Map.Entry<String, String> entry : map.entrySet()) {
+        if (Objects.equals(value, entry.getValue())) {
+            return entry.getKey();
+        }
+    }
+    return null;
+}
 }
